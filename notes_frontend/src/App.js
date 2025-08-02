@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./App.css";
 
-// Color & Theme palette (can be set via CSS variables for easy overrides)
+/**
+ * Color & Theme palette — Black, White, and Grayscale only.
+ */
 const COLOR = {
-  accent: "#FFCA28",
-  primary: "#1976D2",
-  secondary: "#424242",
+  accent: "#888888",      // grayscale accent
+  primary: "#000000",
+  secondary: "#222222",   // dark gray for secondary text
+  white: "#FFFFFF",
+  muted: "#888888"
 };
 
 const demoNotes = [
@@ -137,24 +141,25 @@ function App() {
     app: {
       display: "flex",
       minHeight: "100vh",
-      background: "#fff",
-      color: COLOR.secondary,
-      fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Arial, sans-serif",
-      letterSpacing: "0.02em",
+      background: COLOR.white,
+      color: COLOR.primary,
+      fontFamily:
+        "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Arial, sans-serif",
+      letterSpacing: "0.02em"
     },
     sidebar: {
       width: sidebarOpen ? 220 : 0,
       background: COLOR.primary,
-      color: "#fff",
+      color: COLOR.white,
       transition: "width 0.2s",
       minHeight: "100vh",
-      boxShadow: "2px 0 8px rgba(25,118,210,0.07)",
+      boxShadow: "2px 0 8px rgba(0,0,0,0.05)",
       display: "flex",
       flexDirection: "column",
       zIndex: 2,
-      borderRight: "1px solid #f2f5fa",
+      borderRight: `1px solid #222`,
       position: "relative",
-      overflow: "hidden",
+      overflow: "hidden"
     },
     sidebarHeader: {
       display: "flex",
@@ -163,56 +168,59 @@ function App() {
       fontWeight: 700,
       fontSize: 22,
       letterSpacing: "1.5px",
-      borderBottom: "1px solid rgba(255,255,255,0.1)",
+      borderBottom: "1px solid #111",
       background: COLOR.primary,
+      color: COLOR.white,
       userSelect: "none",
-      gap: 8,
+      gap: 8
     },
     sidebarCloseBtn: {
       marginLeft: "auto",
       fontSize: 18,
       background: "none",
-      color: "#fff",
+      color: COLOR.white,
       border: "none",
       cursor: "pointer",
-      opacity: 0.72,
+      opacity: 0.7
     },
     navBtn: {
       margin: "14px 20px 8px 20px",
       borderRadius: 5,
-      border: "none",
+      border: "1px solid #888",
       background: COLOR.accent,
-      color: "#fff",
+      color: COLOR.white,
       fontWeight: 500,
       fontSize: 15,
       padding: "10px 0",
       cursor: "pointer",
       width: "90%",
-      boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
-      transition: "background .15s",
+      boxShadow: "none",
+      transition: "background .15s"
     },
     list: {
       flex: 1,
       padding: "0 0 12px 0",
-      overflowY: "auto",
+      overflowY: "auto"
     },
     noteListItem: (selected) => ({
       display: "block",
       border: "none",
-      background: selected ? "#e3edfb" : "#fff",
+      background: selected ? "#ededed" : COLOR.white,
       color: selected ? COLOR.primary : COLOR.secondary,
       fontWeight: selected ? 700 : 500,
       fontSize: 15,
       padding: "14px 22px 11px 22px",
       margin: "0 0 3px 0",
-      borderLeft: selected ? `5px solid ${COLOR.accent}` : "5px solid transparent",
-      boxShadow: "0 1.5px 3px 0 rgba(25,118,210,0.02)",
+      borderLeft: selected
+        ? `4px solid ${COLOR.accent}`
+        : "4px solid transparent",
+      boxShadow: "none",
       borderRadius: "0 8px 8px 0",
       cursor: "pointer",
       textAlign: "left",
       transition: "background 0.12s, color 0.14s",
       overflow: "hidden",
-      position: "relative",
+      position: "relative"
     }),
     listNoteTitle: {
       fontWeight: 600,
@@ -220,96 +228,97 @@ function App() {
       margin: 0,
       overflow: "hidden",
       textOverflow: "ellipsis",
-      whiteSpace: "nowrap",
+      whiteSpace: "nowrap"
     },
     listNoteTime: {
-      color: "#bfc9db",
+      color: COLOR.muted,
       fontWeight: 400,
       fontSize: 12,
       marginTop: 2,
       marginBottom: 0,
-      letterSpacing: "0.02em",
+      letterSpacing: "0.02em"
     },
     main: {
       flex: 1,
       display: "flex",
-      background: "#f8f9fb",
+      background: "#fff",
       minHeight: "100vh",
-      transition: "margin-left 0.18s",
+      transition: "margin-left 0.18s"
     },
     notesPanel: {
       width: 300,
-      background: "#fff",
-      boxShadow: "2px 0 8px rgba(25,118,210,0.03)",
-      borderRight: "1px solid #eff3f8",
+      background: COLOR.white,
+      boxShadow: "none",
+      borderRight: "1px solid #ccc",
       padding: 0,
       display: "flex",
       flexDirection: "column",
-      zIndex: 1,
+      zIndex: 1
     },
     searchBox: {
       margin: "24px 22px 15px 22px",
       padding: "8px 10px",
       borderRadius: "6px",
-      border: "1px solid #eef2f8",
+      border: "1px solid #bbb",
       fontSize: 14,
       fontFamily: "inherit",
       outline: "none",
       width: "calc(100% - 22px*2)",
       boxSizing: "border-box",
-      background: "#f8fafd",
+      background: "#f8f8f8",
+      color: "#000"
     },
     editorPanel: {
       flex: 1,
       padding: "0",
-      background: "#fff",
+      background: COLOR.white,
       display: "flex",
       flexDirection: "column",
       minHeight: "100vh",
       boxShadow: "none",
-      border: "none",
+      border: "none"
     },
     editorHeader: {
       display: "flex",
       alignItems: "center",
-      borderBottom: "1px solid #eeeeee",
-      background: "#f8fafc",
+      borderBottom: "1px solid #ccc",
+      background: "#f3f3f3",
       height: 58,
       padding: "0 32px",
-      gap: 10,
+      gap: 10
     },
     editorTitleInput: {
-      border: "none",
+      border: "1px solid #ccc",
       outline: "none",
-      background: "#fff",
+      background: COLOR.white,
       fontWeight: 700,
       fontSize: 22,
       flex: 1,
-      color: COLOR.primary,
+      color: "#111",
       padding: "8px 0 8px 0",
       borderRadius: 3,
       marginRight: 12,
-      boxShadow: "none",
+      boxShadow: "none"
     },
     editorBtns: {
       display: "flex",
       gap: 10,
-      alignItems: "center",
+      alignItems: "center"
     },
     btnDelete: {
-      background: "#fff3e2",
-      color: "#d25a00",
-      border: "1px solid #ffd581",
+      background: "#fff",
+      color: "#000",
+      border: "1px solid #ddd",
       borderRadius: 5,
       padding: "5px 14px",
       fontSize: 14,
       fontWeight: 500,
       cursor: "pointer",
-      transition: "background .14s",
+      transition: "background .14s"
     },
     btnSave: {
       background: COLOR.primary,
-      color: "#fff",
+      color: COLOR.white,
       border: "none",
       borderRadius: 5,
       padding: "7px 18px",
@@ -317,33 +326,33 @@ function App() {
       fontWeight: 600,
       cursor: "pointer",
       marginLeft: 2,
-      boxShadow: "0 2px 4px rgba(25,118,210,0.08)",
-      transition: "background .13s",
+      boxShadow: "none",
+      transition: "background .13s"
     },
     editorTextarea: {
       flex: 1,
-      border: "none",
+      border: "1px solid #ccc",
       outline: "none",
-      background: "#f7fafe",
+      background: "#fff",
       fontSize: 17,
       fontFamily: "inherit",
       padding: "28px 32px",
       resize: "none",
       minHeight: 200,
       width: "100%",
-      color: "#24263a",
+      color: "#222",
       letterSpacing: ".015em",
       borderRadius: 0,
-      margin: 0,
+      margin: 0
     },
     editorEmptyState: {
-      color: "#aaa",
+      color: "#888",
       fontSize: 20,
       width: "100%",
       textAlign: "center",
       margin: "auto",
       padding: "60px 16px",
-      userSelect: "none",
+      userSelect: "none"
     },
     mobileSidebarBtn: {
       position: "absolute",
@@ -351,24 +360,28 @@ function App() {
       left: 24,
       zIndex: 80,
       background: COLOR.primary,
-      color: "#fff",
+      color: COLOR.white,
       border: "none",
       borderRadius: "50%",
       width: 36,
       height: 36,
       fontSize: 22,
-      boxShadow: "0 2px 6px rgba(25,118,210,0.10)",
+      boxShadow: "none",
       cursor: "pointer",
-      display: "none",
+      display: "none"
     },
     "@media (maxWidth: 650px)": {
       app: { flexDirection: "column" },
-      sidebar: { width: sidebarOpen ? "100vw" : 0, position: "absolute", minHeight: 0 },
+      sidebar: {
+        width: sidebarOpen ? "100vw" : 0,
+        position: "absolute",
+        minHeight: 0
+      },
       main: { flexDirection: "column", marginLeft: 0 },
       notesPanel: { width: "100vw" },
       editorPanel: { padding: "0 8px" },
-      mobileSidebarBtn: { display: "block" },
-    },
+      mobileSidebarBtn: { display: "block" }
+    }
   };
 
   // ================ RENDER ========================
@@ -386,7 +399,7 @@ function App() {
                   display: "inline-block",
                   background: COLOR.accent,
                   borderRadius: 2,
-                  marginRight: 8,
+                  marginRight: 8
                 }}
               ></span>
               Notes
