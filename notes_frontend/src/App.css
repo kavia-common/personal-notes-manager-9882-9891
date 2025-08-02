@@ -1,0 +1,72 @@
+:root {
+  --bg-primary: #ffffff;
+  --bg-panel: #f8f9fb;
+  --color-primary: #1976D2;
+  --color-secondary: #424242;
+  --color-accent: #FFCA28;
+  --color-border: #e3edfb;
+  --color-text: #24263a;
+  --color-muted: #bfc9db;
+  --color-light: #fafafa;
+}
+
+body,
+html,
+#root {
+  margin: 0;
+  height: 100%;
+  background: var(--bg-primary);
+}
+.App {
+  min-height: 100vh;
+  background: var(--bg-primary);
+  font-family: Inter, "Segoe UI", Arial, Helvetica, sans-serif;
+  color: var(--color-secondary);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.14s;
+}
+a:hover {
+  color: var(--color-accent);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: #f2f2f2;
+}
+::-webkit-scrollbar-thumb {
+  background: #e4e7ec;
+  border-radius: 4px;
+}
+
+input,
+textarea {
+  font-family: inherit;
+}
+
+@media (max-width: 650px) {
+  .App {
+    flex-direction: column;
+  }
+  .editor-panel {
+    padding: 8px 0 !important;
+  }
+}
+
+button {
+  outline: none;
+}
+
+[data-theme='dark'] {
+  --bg-primary: #23272A;
+  --color-primary: #1976D2;
+  --color-secondary: #ddd;
+  --color-accent: #ffca28;
+  --color-border: #373C43;
+  --color-text: #fff;
+  --color-muted: #bfc9db;
+  --color-light: #2D313A;
+}
